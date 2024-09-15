@@ -31,7 +31,7 @@ done
 wait "${PIDS[@]}"
 
 if [ $relink_needed -eq 1 ]; then
-    $CC -lm bin/*.o -o bin/build
+    $CC -lm bin/*.o -o bin/asrBuild
 fi
 
 echo "Successfully compiled"

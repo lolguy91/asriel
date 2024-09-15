@@ -8,6 +8,7 @@
 #include "lualib.h"
 #include "lauxlib.h"
 #include "logger.h"
+#include "util.h"
 
 void get_lua_location(lua_State* L, char* buffer, size_t buffer_size) {
     lua_Debug ar;
@@ -39,7 +40,7 @@ int lua_log_err(lua_State* state){
     return 0;
 }
 
-bool ab_runscript(const char* path){
+bool ab_runscript(const char* path,int argc,const char** argv){
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
 
@@ -59,6 +60,11 @@ bool ab_runscript(const char* path){
         const char* raw = strdup(old);
 
         char* colon = strchr(strchr(raw,':')+1,':');
+        if(colon == NULL){
+            log_err(raw, __CUR_LOC);
+            free(raw);
+            return false;
+        }
         *colon = 0;
 
         log_err(colon+2, raw);
