@@ -1,6 +1,6 @@
 # The ADI driver file format
 ### magic number and architecture
-The magic number is `0x414449204B4F4F4C`(ASCII "`ADI KOOL`") if the target arch is little-endian and `0x4C4F4F4B20494441`(ASCII "`LOOK IDA`")
+The magic number is `0x414449204B4F4F4C`(ASCII "`ADI KOOL`") if the target arch is little-endian and `0x4C4F4F4B20494441`(ASCII "`LOOK IDA`") otherwise
 
 The byte after the magic value is the architecture byte,
 there are `16` valid architectures:
@@ -20,3 +20,7 @@ there are `16` valid architectures:
 * `0x0C` = openrisc
 * `0x0D` = sparc
 * `0xFF` = ADI interpreted language
+
+### other fields
+other fields in the header include:
+
