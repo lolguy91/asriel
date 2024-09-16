@@ -15,7 +15,7 @@ struct boot_info {
     const char boot_tag[4];
 
     const framebuffer fb;
-} __attribute__((packed));s
+} __attribute__((packed));
 ```
 
 the type `memmap_entry` is defined as
