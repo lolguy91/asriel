@@ -1,0 +1,4 @@
+certificates/
+.zig-cache/
+.zig-out/
+database.db
