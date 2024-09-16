@@ -4,7 +4,7 @@ ab.log_info("fgh")
 recipe = ab.use_template(ab.clang_c_template)
 ab.add_src_dir(recipe,"src") -- src is default src dir if no other one is defined
 
-function _defult(args)
+function _default(args)
     recipe.build_parallel(ab.num_jobs)
     ab.new_linker("bin/app").run()
 end
