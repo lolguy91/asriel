@@ -5,12 +5,12 @@ The kernel only recieves the following `boot_info` structure:
 ```c
 struct boot_info {
     const uint16_t memmap_entry_count;
-    const uint32_t memmap;
+    const uintptr_t memmap;
 
-    const uint32_t driver_ramfs;
     const uint16_t driver_ramfs_size;
+    const uintptr_t driver_ramfs;
 
-    const uint32_t rsdt;
+    const uintptr_t rsdt;
 
     const char boot_tag[4];
 
@@ -31,14 +31,14 @@ and `framebuffer` is defined as:
 ```c
 struct framebuffer {
     uint32_t phys_addr;
-    uint16_t width: 12;
-    uint16_t height: 12;
-    uint16_t pitch: 12;
-    uint8_t  bpp: 6;
-    uint8_t  red_bits : 3;
-    uint8_t  green_bits : 3;
-    uint8_t  blue_bits : 3;
-    uint8_t  channel_order: 2;
+    uint16_t width;
+    uint16_t height;
+    uint16_t pitch;
+    uint8_t  bpp;
+    uint8_t  red_bits;
+    uint8_t  green_bits;
+    uint8_t  blue_bits;
+    uint8_t  channel_order;
 } __attribute__((packed));
 ```
 
