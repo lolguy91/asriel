@@ -13,7 +13,7 @@ CXXFLAGS := -target x86_64-windows-unknown -ffreestanding -fshort-wchar \
            $(CXX_DEFINES)
 
 LDFLAGS := -target x86_64-windows-unknown -nostdlib -fuse-ld=lld \
-           -Wl,/subsystem:efi_application -Wl,/entry:__polar_boot_main -g
+           -Wl,/subsystem:efi_application -Wl,/entry:__aboot_main -g
 
 EFI_FIRMWARE := /usr/share/ovmf/OVMF.fd
 OBJ_DIR := build
