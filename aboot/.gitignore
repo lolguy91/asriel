@@ -1,0 +1,12 @@
+build/
+bin/
+*.log
+*.tmp
+*.iso
+*.img
+*.hdd
+mnt/
+mnt_temp/
+*.lib
+*.a
+*.so
