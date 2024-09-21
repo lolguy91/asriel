@@ -18,7 +18,7 @@ LDFLAGS := -target x86_64-windows-unknown -nostdlib -fuse-ld=lld \
 EFI_FIRMWARE := /usr/share/ovmf/OVMF.fd
 OBJ_DIR := build
 BIN_DIR := bin
-TARGET := $(BIN_DIR)/violin.efi
+TARGET := $(BIN_DIR)/aboot.efi
 IMAGE_NAME := boot.img
 
 .PHONY: all build $(BIN_DIR)/$(IMAGE_NAME) run clean clean-disk
