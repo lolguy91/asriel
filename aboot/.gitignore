@@ -10,3 +10,4 @@ mnt_temp/
 *.lib
 *.a
 *.so
+.vscode

@@ -7,9 +7,9 @@ EFI_SYSTEM_TABLE *ST;
 void output_string(const char *ascii_str) {
     if (ascii_str == NULL) {
         return; // Handle null input
-    }
+        }
 
-    // Calculate the length of the ASCII string
+        // Calculate the length of the ASCII string
     size_t len = strlen(ascii_str);
 
     CHAR16* char16_str;
@@ -37,6 +37,14 @@ void __aboot_common(EFI_HANDLE IHs, EFI_SYSTEM_TABLE *STs) {
 
     output_string("Loaded common boot function\r\n");
 
+    output_string("Loading Disk...\r\n");
+    DISK *disk = NULL;
+    EFI_STATUS dirivestat = DiskOpen(disk);
+    if (dirivestat != EFI_SUCCESS) {
+        output_string("Failed to open disk\r\n");
+        output_string("Please restart your computer\r\n");
+        return;
+    }
 
     output_string("Finished common boot function\r\n");
     for (;;) {asm("hlt");}
