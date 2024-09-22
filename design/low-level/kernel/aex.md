@@ -22,9 +22,10 @@ The machines are:
 * `0x2` = `Reserved`
 ### Other header parameters
 * Entry point adress(`8 bytes`)
+* CRC32 hash(`4 bytes`)
 * Number of segments(`1 byte`)
 * Symbol table size(`2 bytes`)
-<!-- TODO: Relocatons --->
+<!-- TODO: Relocatons, Imports and Exports --->
 ### Segment table
 The segment table follows after the Header:
 One entry contains the following things:
