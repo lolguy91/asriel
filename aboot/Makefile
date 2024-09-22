@@ -47,7 +47,6 @@ $(BIN_DIR)/$(IMAGE_NAME): $(TARGET)
 	@sudo cp -r rootfs/* mnt/
 	@sudo umount mnt
 	@rm -rf mnt
-	@
 
 run: $(BIN_DIR)/$(IMAGE_NAME)
 	@qemu-system-x86_64 -drive file=$(BIN_DIR)/$(IMAGE_NAME),format=raw -m 2G \

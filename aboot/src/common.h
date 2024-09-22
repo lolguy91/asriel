@@ -4,7 +4,7 @@
 #include <efi/efi.h>
 #include <stddef.h>
 #include <include/malloc.h>
-#include <include/io/disk.h>
+#include <include/io/sfs.h>
 
 extern EFI_HANDLE IH;
 extern EFI_SYSTEM_TABLE *ST;
