@@ -7,7 +7,7 @@ types of objects:
 typedef struct{
     char name[128];// name of the thread, aka the command that spawned it
     arch_state_t state; // arch specific, preprocessor macros do the job
-    unit8_t state_flags;
+    uint8_t state_flags;
     uint16_t argc;
     uintptr_t argv;
     uintptr_t env;
