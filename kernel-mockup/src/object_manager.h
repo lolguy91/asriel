@@ -3,7 +3,7 @@
 
 #include "stdbool.h"
 #include "stdint.h"
-#include <cstdint>
+#include <stdint.h>
 
 //IMPORTANT: THE FOLLOWING STRUCTS ARE MOCKUPS
 
@@ -42,7 +42,19 @@ typedef enum{
 } dev_type;
 
 //END OF MOCKUPS
+
+#define OM_NULL 0
+#define OM_MAGIC_PATTERN_ALIVE 0x55
+#define OM_MAGIC_PATTERN_DEAD 0xAA
+
+#define OM_TYPE_THREAD 0
+#define OM_TYPE_DEVICE 1
+#define OM_TYPE_VFS_NODE 2
+#define OM_TYPE_VFS_CHILD_PAGE 3
+#define OM_TYPE_VFS_LONG_NAME 4
+
 typedef struct {
+    uint8_t magic_pattern;
     uint8_t type;
     uint16_t id;
 } object_header_t;
@@ -85,7 +97,7 @@ typedef struct{
 } vfs_long_name_t;
 
 typedef struct{
-    object_header_t header;
+    uint8_t type;
     union{
         thread_t thread;
         device_t device;
@@ -119,6 +131,6 @@ bool object_manager_remove(uint16_t obj_id);
  * @param obj_id: id of the object to get
  * @return: the object
 */
-obj_to_insert_t object_manager_get(uint16_t obj_id);
+char* object_manager_get(uint16_t obj_id);
 
 #endif // __OBJECT_MANAGER_H__
