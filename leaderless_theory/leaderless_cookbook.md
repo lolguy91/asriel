@@ -33,7 +33,7 @@ you must do the following to make a leaderless project:
 3. in the mystery period, you must draw in your major contributors to the project, and develop it to an announcable state
 4. in the public period, you must announce your project, and make it actually leaderless
 5. you must not get involved in any arguments during the mystery period(oh no)
-6. you have to prefer people with no original ideas or personal projects when recruiting
+6. you have to prefer people with no personal projects when recruiting
 7. you must not let incompetant people in
 8. you must kick all bad actors while the project is still hierarchical
 9. you must get into the public period at the right time: if its too soon, the project will be percieved as bad quality, if you are too late, the contributors will leave the project
