@@ -8,7 +8,7 @@ So, before even coming up with leaderless, I was trying to figure out how to rec
 
 1. How do I aquire a steady stream of interested people?
 2. How do I ensure the people are actually competant?
-3. How do I ensure my people are willing to contribute?á
+3. How do I ensure my people are willing to contribute?
 
 These were all mysteries, after turning my old project - RoidsOS - anarchist, I identified 2 more problems:
 
