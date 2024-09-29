@@ -4,9 +4,12 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+//this is here cuz IDK how to properly configure clangd for vscode
+#include <luajit-2.1/lua.h>
+
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
 #include "logger.h"
 #include "util.h"
 
@@ -48,34 +51,31 @@ int api_use_template(lua_State* state){
     return 0;
 }
 
-int api_add_src_dir(lua_State* state){
-    char location[100];
-    get_lua_location(state, location, 100);
-
+int api_add_src_dir(lua_State* state) {
+    if (lua_gettop(state) != 2) {
+        return luaL_error(state, "Expected 2 arguments: recipe and path");
+    }
     luaL_checktype(state, -2, LUA_TTABLE);
+    luaL_checktype(state, -1, LUA_TSTRING);
 
-    const char *key = "compiler";
+    lua_getfield(state, 1, "src_dirs");
 
-    lua_pushstring(state, key);
-
-
-    lua_gettable(state, -3);
-
-    if (lua_isstring(state, -1)) {
-        const char *value = lua_tostring(state, -1);
-        printf("Value: %s\n", value);
-    } else if (lua_isnumber(state, -1)) {
-        double value = lua_tonumber(state, -1);
-        printf("Value: %f\n", value);
-    } else {
-        printf("Value not found or not a string/number.\n");
+    if (!lua_istable(state, -1)) {
+        return luaL_error(state, "recipe.src_dirs must be a table");
     }
 
-    key = ""
+    size_t len = lua_objlen(state, -1);
 
-    log_info("called ab.add_src_dir",location);
-    return 0;
+    lua_pushvalue(state, 2);
+    lua_rawseti(state, -2, len + 1);
+
+
+    // Clean up by popping the src_dirs table from the stack
+    lua_pop(state, 1);
+
+    return 0;  // Return 0 values to Lua
 }
+
 
 bool ab_runscript(const char* path,int argc,const char** argv){
     lua_State* L = luaL_newstate();

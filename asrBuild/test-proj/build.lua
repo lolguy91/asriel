@@ -1,13 +1,17 @@
-ab.log_err("asd")
-ab.log_info("fgh")
-
 recipe = {
     compiler = "/usr/bin/clang",
     include = {"src", "include"},
-    lib = {"lib"},
+    lib_dirs = {"lib"},
+    src_dirs = {},
     linker = "/usr/bin/ld.lld"
-} -- example for now sorry azzy
-ab.add_src_dir(recipe,"src") -- src is default src dir if no other one is defined
+} -- Im too lazy to do the recipe creation function rn
+
+ab.add_src_dir(recipe,"src")
+
+for _, dir in ipairs(recipe.src_dirs) do
+    print(dir)
+end
+
 
 function _default(args)
     recipe.build_parallel(ab.num_jobs)
