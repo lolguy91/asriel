@@ -1,7 +1,12 @@
 ab.log_err("asd")
 ab.log_info("fgh")
 
-recipe = ab.use_template(ab.clang_c_template)
+recipe = {
+    compiler = "/usr/bin/clang",
+    include = {"src", "include"},
+    lib = {"lib"},
+    linker = "/usr/bin/ld.lld"
+} -- example for now sorry azzy
 ab.add_src_dir(recipe,"src") -- src is default src dir if no other one is defined
 
 function _default(args)

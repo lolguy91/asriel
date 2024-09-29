@@ -52,6 +52,27 @@ int api_add_src_dir(lua_State* state){
     char location[100];
     get_lua_location(state, location, 100);
 
+    luaL_checktype(state, -2, LUA_TTABLE);
+
+    const char *key = "compiler";
+
+    lua_pushstring(state, key);
+
+
+    lua_gettable(state, -3);
+
+    if (lua_isstring(state, -1)) {
+        const char *value = lua_tostring(state, -1);
+        printf("Value: %s\n", value);
+    } else if (lua_isnumber(state, -1)) {
+        double value = lua_tonumber(state, -1);
+        printf("Value: %f\n", value);
+    } else {
+        printf("Value not found or not a string/number.\n");
+    }
+
+    key = ""
+
     log_info("called ab.add_src_dir",location);
     return 0;
 }
