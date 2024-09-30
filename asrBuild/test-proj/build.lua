@@ -1,5 +1,12 @@
 recipe = ab.new_recipe()
 
+recipe:add_src_dir("src")
+recipe:set_compiler("clang")
+recipe:set_linker("lld")
+
+print("Compler: " .. recipe.compiler)
+print("Linker: " .. recipe.linker)
+
 function _default(args)
     recipe:build_func()
 end

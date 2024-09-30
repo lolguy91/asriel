@@ -44,9 +44,10 @@ int api_log_err(lua_State* state){
 }
 
 int recipe_build_func(lua_State* state) {
-    if (!lua_istable(state, 1)) {
-        return luaL_error(state, "Recipe not a table or called with a . not a :");
+    if (lua_gettop(state) != 1 || !lua_istable(state, 1)) {
+        return luaL_error(state, "too many arguments or called with \".\" instead of \":\"");
     }
+    luaL_checktype(state, -2, LUA_TTABLE);
 
     lua_getfield(state, 1, "compiler");
     if (lua_isnil(state, -1)) {
@@ -75,6 +76,59 @@ int recipe_build_func(lua_State* state) {
     error:
         lua_pop(state, 1);
         return luaL_error(state, "Recipe is not properly filled out");
+}
+
+int recipe_add_src_dir(lua_State* state) {
+    if (lua_gettop(state) != 2) {
+        return luaL_error(state, "no path or called with \".\" instead of \":\"");
+    }
+    luaL_checktype(state, -2, LUA_TTABLE);
+    luaL_checktype(state, -1, LUA_TSTRING);
+
+    lua_getfield(state, 1, "src_dirs");
+
+    if (!lua_istable(state, -1)) {
+        return luaL_error(state, "recipe.src_dirs must be a table");
+    }
+
+    size_t len = lua_objlen(state, -1);
+
+    lua_pushvalue(state, 2);
+    lua_rawseti(state, -2, len + 1);
+
+
+    // Clean up by popping the src_dirs table from the stack
+    lua_pop(state, 1);
+
+    return 0;  // Return 0 values to Lua
+}
+
+int recipe_set_compiler(lua_State* state) {
+    if (lua_gettop(state) != 2) {
+        return luaL_error(state, "no path or called with \".\" instead of \":\"");
+    }
+    luaL_checktype(state, -2, LUA_TTABLE);
+    luaL_checktype(state, -1, LUA_TSTRING);
+
+    lua_pushstring(state, "compiler");
+    lua_pushvalue(state, -2);
+    lua_settable(state, -3);
+
+    return 0;
+}
+
+int recipe_set_linker(lua_State* state) {
+    if (lua_gettop(state) != 2) {
+        return luaL_error(state, "no path or called with \".\" instead of \":\"");
+    }
+    luaL_checktype(state, -2, LUA_TTABLE);
+    luaL_checktype(state, -1, LUA_TSTRING);
+
+    lua_pushstring(state, "linker");
+    lua_pushvalue(state, -2);
+    lua_settable(state, -3);
+
+    return 0;
 }
 
 int api_new_recipe(lua_State* state) {
@@ -112,6 +166,19 @@ int api_new_recipe(lua_State* state) {
     lua_pushcfunction(state, recipe_build_func);
     lua_settable(state, -3);
 
+    lua_pushstring(state, "add_src_dir");
+    lua_pushcfunction(state, recipe_add_src_dir);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "set_compiler");
+    lua_pushcfunction(state, recipe_set_compiler);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "set_linker");
+    lua_pushcfunction(state, recipe_set_linker);
+    lua_settable(state, -3);
+
+
     // the table is already on top of the stack
     return 1;
 }
@@ -124,32 +191,6 @@ int api_use_template(lua_State* state){
     log_info("called ab.use_template",location);
     return 0;
 }
-
-int api_add_src_dir(lua_State* state) {
-    if (lua_gettop(state) != 2) {
-        return luaL_error(state, "Expected 2 arguments: recipe and path");
-    }
-    luaL_checktype(state, -2, LUA_TTABLE);
-    luaL_checktype(state, -1, LUA_TSTRING);
-
-    lua_getfield(state, 1, "src_dirs");
-
-    if (!lua_istable(state, -1)) {
-        return luaL_error(state, "recipe.src_dirs must be a table");
-    }
-
-    size_t len = lua_objlen(state, -1);
-
-    lua_pushvalue(state, 2);
-    lua_rawseti(state, -2, len + 1);
-
-
-    // Clean up by popping the src_dirs table from the stack
-    lua_pop(state, 1);
-
-    return 0;  // Return 0 values to Lua
-}
-
 
 bool ab_runscript(const char* path,int argc,const char** argv){
     lua_State* L = luaL_newstate();
@@ -168,9 +209,6 @@ bool ab_runscript(const char* path,int argc,const char** argv){
 
     lua_pushcfunction(L, api_use_template);
     lua_setfield(L, -2, "use_template");
-
-    lua_pushcfunction(L, api_add_src_dir);
-    lua_setfield(L, -2, "add_src_dir");
 
     // Set 'ab' table as a global object in Lua
     lua_setglobal(L, "ab");
