@@ -29,7 +29,7 @@ int api_log_info(lua_State* state){
     get_lua_location(state, location, 100);
 
     log_info(message, location);
-    
+
     return 0;
 }
 
@@ -42,6 +42,80 @@ int api_log_err(lua_State* state){
 
     return 0;
 }
+
+int recipe_build_func(lua_State* state) {
+    if (!lua_istable(state, 1)) {
+        return luaL_error(state, "Recipe not a table or called with a . not a :");
+    }
+
+    lua_getfield(state, 1, "compiler");
+    if (lua_isnil(state, -1)) {
+        goto error;
+    }
+    lua_pop(state, 1);
+
+
+    lua_getfield(state, 1, "linker");
+    if (lua_isnil(state, -1)) {
+        goto error;
+    }
+    lua_pop(state, 1);
+
+
+    lua_getfield(state, 1, "src_dirs");
+    if (!lua_istable(state, -1)) {
+        goto error;
+    }
+    if (lua_objlen(state, -1) == 0) {
+        goto error;
+    }
+
+    return 0;
+
+    error:
+        lua_pop(state, 1);
+        return luaL_error(state, "Recipe is not properly filled out");
+}
+
+int api_new_recipe(lua_State* state) {
+    lua_newtable(state);
+
+    lua_pushstring(state, "compiler");
+    lua_pushnil(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "linker");
+    lua_pushnil(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "inc_dirs");
+    lua_newtable(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "lib_dirs");
+    lua_newtable(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "src_dirs");
+    lua_newtable(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "comp_flags");
+    lua_newtable(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "link_flags");
+    lua_newtable(state);
+    lua_settable(state, -3);
+
+    lua_pushstring(state, "build_func");
+    lua_pushcfunction(state, recipe_build_func);
+    lua_settable(state, -3);
+
+    // the table is already on top of the stack
+    return 1;
+}
+
 
 int api_use_template(lua_State* state){
     char location[100];
@@ -88,6 +162,9 @@ bool ab_runscript(const char* path,int argc,const char** argv){
 
     lua_pushcfunction(L, api_log_err);
     lua_setfield(L, -2, "log_err");
+
+    lua_pushcfunction(L, api_new_recipe);
+    lua_setfield(L, -2, "new_recipe");
 
     lua_pushcfunction(L, api_use_template);
     lua_setfield(L, -2, "use_template");
