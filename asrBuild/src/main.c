@@ -14,7 +14,6 @@ int main(int argc, char** argv){
     memset(fullpath,0,strlen(path) + strlen("/build.lua") + 1);
     strcpy(fullpath,path);
     strcat(fullpath,"/build.lua");
-    printf("Build.lua Path: \"%s\"\n",fullpath);
 
     ab_runscript(fullpath,argc,argv);
 }
