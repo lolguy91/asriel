@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ab.log_err("asd")
 ab.log_info("fgh")
 
@@ -11,4 +12,22 @@ end
 function run(args)
     _default()
     ab.new_custom_cmd("bin/app").run()
+=======
+recipe = ab.new_recipe()
+
+recipe:add_src_dir("src")
+recipe:set_compiler("clang")
+recipe:set_linker("lld")
+
+print("Compler: " .. recipe.compiler)
+print("Linker: " .. recipe.linker)
+
+function _default(args)
+    recipe:build_func()
+end
+
+function run(args)
+    _default()
+    ab.new_custom_cmd("bin/app").run()
+>>>>>>> origin/master
 end
