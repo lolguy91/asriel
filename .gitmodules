@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 [submodule "aboot/lib/efi"]
 	path = aboot/lib/efi
-=======
-[submodule "asrBuild/aboot/lib/efi"]
-	path = asrBuild/aboot/lib/efi
->>>>>>> origin/master
 	url = https://github.com/aurixos/efi
