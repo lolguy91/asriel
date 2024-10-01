@@ -44,8 +44,8 @@ int api_log_err(lua_State* state){
 }
 
 int recipe_build_func(lua_State* state) {
-    if (lua_gettop(state) != 1 || !lua_istable(state, 1)) {
-        return luaL_error(state, "too many arguments or called with \".\" instead of \":\"");
+    if (lua_gettop(state) != 1) {
+        return luaL_error(state, "too many arguments");
     }
     luaL_checktype(state, -2, LUA_TTABLE);
 
@@ -102,17 +102,17 @@ int recipe_add_src_dir(lua_State* state) {
 
     return 0;  // Return 0 values to Lua
 }
-
 int recipe_set_compiler(lua_State* state) {
     if (lua_gettop(state) != 2) {
         return luaL_error(state, "no path or called with \".\" instead of \":\"");
     }
-    luaL_checktype(state, -2, LUA_TTABLE);
-    luaL_checktype(state, -1, LUA_TSTRING);
+
+    luaL_checktype(state, 1, LUA_TTABLE);
+    luaL_checktype(state, 2, LUA_TSTRING);
 
     lua_pushstring(state, "compiler");
-    lua_pushvalue(state, -2);
-    lua_settable(state, -3);
+    lua_pushvalue(state, 2);
+    lua_settable(state, 1);  // First argument is the table
 
     return 0;
 }
@@ -121,12 +121,13 @@ int recipe_set_linker(lua_State* state) {
     if (lua_gettop(state) != 2) {
         return luaL_error(state, "no path or called with \".\" instead of \":\"");
     }
-    luaL_checktype(state, -2, LUA_TTABLE);
-    luaL_checktype(state, -1, LUA_TSTRING);
+
+    luaL_checktype(state, 1, LUA_TTABLE);
+    luaL_checktype(state, 2, LUA_TSTRING);
 
     lua_pushstring(state, "linker");
-    lua_pushvalue(state, -2);
-    lua_settable(state, -3);
+    lua_pushvalue(state, 2);
+    lua_settable(state, 1);  // First argument is the table
 
     return 0;
 }
