@@ -47,7 +47,7 @@ int recipe_build_func(lua_State* state) {
     if (lua_gettop(state) != 1) {
         return luaL_error(state, "too many arguments");
     }
-    luaL_checktype(state, -2, LUA_TTABLE);
+    luaL_checktype(state, -1, LUA_TTABLE);
 
     lua_getfield(state, 1, "compiler");
     if (lua_isnil(state, -1)) {
@@ -112,7 +112,9 @@ int recipe_set_compiler(lua_State* state) {
 
     lua_pushstring(state, "compiler");
     lua_pushvalue(state, 2);
-    lua_settable(state, 1);  // First argument is the table
+    lua_settable(state, 1);
+
+    lua_pop(state, 1);
 
     return 0;
 }
@@ -127,7 +129,9 @@ int recipe_set_linker(lua_State* state) {
 
     lua_pushstring(state, "linker");
     lua_pushvalue(state, 2);
-    lua_settable(state, 1);  // First argument is the table
+    lua_settable(state, 1);
+
+    lua_pop(state, 1);
 
     return 0;
 }
@@ -178,7 +182,6 @@ int api_new_recipe(lua_State* state) {
     lua_pushstring(state, "set_linker");
     lua_pushcfunction(state, recipe_set_linker);
     lua_settable(state, -3);
-
 
     // the table is already on top of the stack
     return 1;
