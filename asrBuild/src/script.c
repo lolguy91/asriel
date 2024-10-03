@@ -135,7 +135,33 @@ int recipe_set_linker(lua_State* state) {
 
     return 0;
 }
+/*
+ * @brief Lua API function for setting the source extension
+ * @param `state` The Lua state
+ * @param `self` (From Lua) The recipe to call on
+ * @param `src_ext` (From Lua) The source extension to set
+*/
+int recipe_set_extension(lua_State* state) {
+    if (lua_gettop(state) != 2) {
+        return luaL_error(state, "no path or called with \".\" instead of \":\"");
+    }
 
+    luaL_checktype(state, 1, LUA_TTABLE);
+    luaL_checktype(state, 2, LUA_TSTRING);
+
+    lua_pushstring(state, "src_ext");
+    lua_pushvalue(state, 2);
+    lua_settable(state, 1);
+
+    lua_pop(state, 1);
+
+    return 0;
+}
+/*
+ * @brief Lua API function for creating a new recipe
+ * @param `state` The Lua state
+ * @return `self` (In Lua) The new recipe
+*/
 int api_new_recipe(lua_State* state) {
     lua_newtable(state);
 
@@ -147,6 +173,10 @@ int api_new_recipe(lua_State* state) {
     lua_pushnil(state);
     lua_settable(state, -3);
 
+    lua_pushstring(state, "src_ext");
+    lua_pushnil(state);
+    lua_settable(state, -3);
+    
     lua_pushstring(state, "inc_dirs");
     lua_newtable(state);
     lua_settable(state, -3);

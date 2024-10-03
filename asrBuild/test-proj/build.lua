@@ -3,6 +3,7 @@ recipe = ab.new_recipe()
 recipe:add_src_dir("src")
 recipe:set_compiler("clang")
 recipe:set_linker("lld")
+recipe:set_extension("c")
 
 print("Compler: " .. recipe.compiler)
 print("Linker: " .. recipe.linker)
