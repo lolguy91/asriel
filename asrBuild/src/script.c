@@ -12,6 +12,8 @@
 #include <lauxlib.h>
 #include "logger.h"
 #include "util.h"
+#include "src_discovery.h"
+
 /*
  * @brief Gets the current location of the Lua script
  * @param `L` The Lua state
@@ -89,6 +91,40 @@ int recipe_build_func(lua_State* state) {
     if (lua_objlen(state, -1) == 0) {
         goto error;
     }
+
+    int length = lua_objlen(state, -1);
+
+    char** src_dirs = malloc(length + 1);
+
+    for (int i = 1; i <= length; i++) {
+        lua_rawgeti(state, -1, i);
+        if (!lua_isstring(state, -1)) {
+            goto error;
+        }
+
+        src_dirs[i - 1] = strdup(lua_tostring(state, -1));
+        lua_pop(state, 1);
+    }
+    src_dirs[length] = NULL;
+
+    char* src_extension = NULL;
+
+    lua_getfield(state, 1, "src_ext");
+    if (!lua_isstring(state, -1)) {
+        goto error;
+    }
+    src_extension = strdup(lua_tostring(state, -1));
+
+    char** files = get_files(src_dirs, src_extension);
+
+    printf("Source files:\n");
+
+    for (int i = 0; files[i] != NULL; i++) {
+        printf("%s\n", files[i]);
+    } 
+
+
+    lua_pop(state, 1);
 
     return 0;
 
