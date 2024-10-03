@@ -12,7 +12,12 @@
 #include <lauxlib.h>
 #include "logger.h"
 #include "util.h"
-
+/*
+ * @brief Gets the current location of the Lua script
+ * @param `L` The Lua state
+ * @param `buffer` The buffer to store the location in
+ * @param `buffer_size` The size of the buffer
+*/
 void get_lua_location(lua_State* L, char* buffer, size_t buffer_size) {
     lua_Debug ar;
     if (lua_getstack(L, 1, &ar)) {
@@ -23,6 +28,11 @@ void get_lua_location(lua_State* L, char* buffer, size_t buffer_size) {
     }
 }
 
+/*
+ * @brief Lua API function for logging info
+ * @param `state` The Lua state
+ * @param `message` (From Lua) The message to log
+*/
 int api_log_info(lua_State* state){
     const char* message = lua_tostring(state, 1);
     char location[100];
@@ -33,6 +43,11 @@ int api_log_info(lua_State* state){
     return 0;
 }
 
+/*
+ * @brief Lua API function for logging errors
+ * @param `state` The Lua state
+ * @param `message` (From Lua) The message to log
+*/
 int api_log_err(lua_State* state){
     const char* message = lua_tostring(state, 1);
     char location[100];
@@ -42,7 +57,11 @@ int api_log_err(lua_State* state){
 
     return 0;
 }
-
+/*
+ * @brief Lua API function for building a recipe
+ * @param `state` The Lua state
+ * @param `self` (From Lua) The recipe to call on
+*/
 int recipe_build_func(lua_State* state) {
     if (lua_gettop(state) != 1) {
         return luaL_error(state, "too many arguments");
@@ -78,6 +97,12 @@ int recipe_build_func(lua_State* state) {
         return luaL_error(state, "Recipe is not properly filled out");
 }
 
+/*
+ * @brief Lua API function for adding a source directory
+ * @param `state` The Lua state
+ * @param `self` (From Lua) The recipe to call on
+ * @param `src_dir` (From Lua) The source directory to add
+*/
 int recipe_add_src_dir(lua_State* state) {
     if (lua_gettop(state) != 2) {
         return luaL_error(state, "no path or called with \".\" instead of \":\"");
@@ -102,6 +127,12 @@ int recipe_add_src_dir(lua_State* state) {
 
     return 0;  // Return 0 values to Lua
 }
+/*
+ * @brief Lua API function for setting the compiler
+ * @param `state` The Lua state
+ * @param `self` (From Lua) The recipe to call on
+ * @param `compiler` (From Lua) The compiler to set
+*/
 int recipe_set_compiler(lua_State* state) {
     if (lua_gettop(state) != 2) {
         return luaL_error(state, "no path or called with \".\" instead of \":\"");
@@ -118,7 +149,12 @@ int recipe_set_compiler(lua_State* state) {
 
     return 0;
 }
-
+/*
+ * @brief Lua API function for setting the linker
+ * @param `state` The Lua state
+ * @param `self` (From Lua) The recipe to call on
+ * @param `linker` (From Lua) The linker to set
+*/
 int recipe_set_linker(lua_State* state) {
     if (lua_gettop(state) != 2) {
         return luaL_error(state, "no path or called with \".\" instead of \":\"");
@@ -213,11 +249,20 @@ int api_new_recipe(lua_State* state) {
     lua_pushcfunction(state, recipe_set_linker);
     lua_settable(state, -3);
 
+    lua_pushstring(state, "set_extension");
+    lua_pushcfunction(state, recipe_set_extension);
+    lua_settable(state, -3);
+
     // the table is already on top of the stack
     return 1;
 }
 
-
+/*
+ * @brief Lua API function for using a template
+ * @param `state` The Lua state
+ * @param `recipe` (In Lua) The recipe ID to get
+ * @return `self` (In Lua) The new recipe
+*/
 int api_use_template(lua_State* state){
     char location[100];
     get_lua_location(state, location, 100);
@@ -226,6 +271,12 @@ int api_use_template(lua_State* state){
     return 0;
 }
 
+/*
+ * @brief Runs a build script
+ * @param `path` The path to the script
+ * @param `argc` The number of arguments
+ * @param `argv` The arguments
+*/
 bool ab_runscript(const char* path,int argc,const char** argv){
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
