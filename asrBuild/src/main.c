@@ -20,10 +20,14 @@ int main(int argc, char** argv){
         exit(EXIT_FAILURE);
     }
 
-    //check if build.lua exists
     if (access("build.lua", F_OK) == 0) {
         ab_runscript("build.lua",argc,argv);
+        exit(EXIT_SUCCESS);
     }
-
-    return 0;
+    if (access("abfile", F_OK) == 0) {
+        ab_runscript("abfile",argc,argv);
+        exit(EXIT_SUCCESS);
+    }
+    log_err("Failed to find a build script",__CUR_LOC);
+    exit(EXIT_FAILURE);
 }
