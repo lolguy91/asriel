@@ -58,26 +58,7 @@ typedef struct{
 typedef struct{
     uint16_t owner_pid;
     uint16_t owner_pgid;
-    struct {
-        struct{
-            bool subscribe : 1; // permission to subscribe to the event
-            bool fire      : 1; // permission to fire the event
-            bool recieve   : 1; // permission to recieve the event(separate from subscribe for spoofing reasons)
-            bool delete    : 1; // permission to delete the event
-        } __attribute__((packed)) owner;
-        struct{
-            bool subscribe : 1;
-            bool fire      : 1;
-            bool recieve   : 1;
-            bool delete    : 1;
-        } __attribute__((packed)) group;
-        struct{
-            bool subscribe : 1;
-            bool fire      : 1;
-            bool recieve   : 1;
-            bool delete    : 1;
-        } __attribute__((packed)) everyone;
-    } __attribute__((packed)) permissions;
+    uint16_t permissions;  // first nibble is owner perm, second one is goup perm, 3rd one is other perm, 4th one is unused
     uint16_t handler_list; // OM offset of the handler list
 } event_t;
 ```
