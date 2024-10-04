@@ -53,3 +53,42 @@ typedef struct{
     uint16_t next; // OM offset of the next long_name, 0 is null
 } vfs_long_name_t;
 ```
+6. event:
+```c
+typedef struct{
+    uint16_t owner_pid;
+    uint16_t owner_pgid;
+    struct {
+        struct{
+            bool subscribe : 1; // permission to subscribe to the event
+            bool fire      : 1; // permission to fire the event
+            bool recieve   : 1; // permission to recieve the event(separate from subscribe for spoofing reasons)
+            bool delete    : 1; // permission to delete the event
+        } __attribute__((packed)) owner;
+        struct{
+            bool subscribe : 1;
+            bool fire      : 1;
+            bool recieve   : 1;
+            bool delete    : 1;
+        } __attribute__((packed)) group;
+        struct{
+            bool subscribe : 1;
+            bool fire      : 1;
+            bool recieve   : 1;
+            bool delete    : 1;
+        } __attribute__((packed)) everyone;
+    } __attribute__((packed)) permissions;
+    uint16_t handler_list; // OM offset of the handler list
+} event_t;
+```
+
+7. event_handler_list:
+```c
+typedef struct{
+    struct {
+        uint16_t PID;
+        uintptr_t handler_addr;
+    } __attribute__((packed)) handlers[64];
+    uint16_t next; // OM offset of the next handler list, 0 is null
+} event_handler_list_t;
+```
