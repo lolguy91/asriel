@@ -6,7 +6,7 @@
 void get_timestamp(char* buffer, size_t buffer_size) {
     time_t now = time(NULL);
     struct tm* tstruct = localtime(&now);
-    strftime(buffer, buffer_size, "[%Y/%m/%d] [%H:%M:%S]", tstruct);
+    strftime(buffer, buffer_size, "[%Y/%m/%d %H:%M:%S]", tstruct);
 }
 
 void log_info(const char* message,const char* location) {
