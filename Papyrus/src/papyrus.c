@@ -1,7 +1,4 @@
-/* Standard library includes */
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "papyrus.h"
 
 /* Glad include */
 #if defined _WIN32 || defined _WIN64
@@ -20,7 +17,7 @@
 int width = 0;
 int height = 0;
 
-int main()
+int init_window()
 {
     glfwInit();
     GLFWwindow *window = glfwCreateWindow(650, 650, "Papyrus", NULL, NULL);
