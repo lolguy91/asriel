@@ -23,3 +23,8 @@ you can mount a disk to:
 * any letter in the `A`-`Z` range
 * any all-caps string less than `8` characters
 * any static link link(by linking to the device by UUID)
+
+## Partial URLs
+if a URL starts with any of the reserved names and a slash, it is considered a partial URL
+
+partial URLs are relative to the current directory and user
