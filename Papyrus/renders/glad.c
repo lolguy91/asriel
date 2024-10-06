@@ -23,11 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined _WIN32 || defined _WIN64
-	#include "Libraries/include/glad/glad.h"
-#else
-	#include <glad/glad.h>
-#endif
+#include <glad/glad.h>
 
 static void* get_proc(const char *namez);
 
