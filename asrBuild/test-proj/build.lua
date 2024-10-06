@@ -5,9 +5,6 @@ recipe:set_compiler("clang")
 recipe:set_linker("lld")
 recipe:set_extension(".c")
 
-ab.log_info("Compler: " .. recipe.compiler)
-ab.log_info("Linker: " .. recipe.linker)
-
 function _default(args)
     recipe:build_func()
 end
