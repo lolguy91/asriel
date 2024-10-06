@@ -14,8 +14,9 @@ special characters:
 
 reserved names:
 * `.` - current directory
-* `..` - parent directory
+* `..` or `^` - parent directory
 * `~` - home directory
+* `%` - root of the current drive
 
 ## Mounting
 you can mount a disk to:
