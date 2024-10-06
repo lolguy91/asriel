@@ -13,9 +13,7 @@ stops the process with status code `status`
 opens an object at location `URL` with flags `flags` and mode `mode`, returns an object descriptor.
 2. close(`int` od) </br>
 closes the object descriptor `od`
-4. new_event(int permissions, int relevant_pgid) -> od(`int`) </br>
-creates a new event
-5. new_socket(**I have no fucking clue what to put here**) -> od(`int`) </br>
-creates a new socket
-3. act(`int` od, `int` action,`ptr` buffer, `int` size, *action specific 1*,*action specific 2*) -> status(`int`) </br>
+3. newobj(`int` type, `ptr` URL, `int` specific 1, `int` specific 2) -> od(`int`) </br>
+creates a new object of type  `type` at location `URL`
+4. act(`int` od, `int` action,`ptr` buffer, `int` size, *action specific 1*,*action specific 2*) -> status(`int`) </br>
 does an action on an object descriptor `od` and returns a status code
