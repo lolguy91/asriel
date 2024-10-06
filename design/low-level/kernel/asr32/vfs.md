@@ -2,7 +2,7 @@
 The SOUL VFS doesn't only manage files and directories but also all resources accessable via a URL.
 
 URL format: `scheme:[//]url`
-the scheme can be a mounted disk by name(like `A` or `DRIVE`), an unmounted partition by id(like `sda1` or a GPT GUID), a network protocol(like `https` or `gopher`), or a resource(like `proc` or `dev`).
+the scheme can be a mounted disk by name(like `A` or `DRIVE`), an unmounted partition by id(like `sda1` or a GPT GUID), a network protocol(like `https` or `gopher`), or a resource(like `proc` or `zero`).
 
 special characters:
 * `/` - reserved for directory separator
@@ -13,8 +13,6 @@ special characters:
 * `space` - cannot be used in a URL, unless its wrapped in quotes
 
 reserved names:
-* `.` - current directory
-* `..` or `^` - parent directory
 * `~` - home directory
 * `%` - root of the current drive
 
