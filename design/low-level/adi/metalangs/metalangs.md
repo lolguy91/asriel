@@ -3,7 +3,10 @@
 These metalanguages let the driver use architecture dependant instructions easily:
 - <a href="arch_specific/x86.md">x86</a>
 - <a href="arch_specific/x86_64.md">x86_64</a>
-- TODO: add more architectures
+- <a href="arch_specific/aarch32.md">aarch32</a>
+- <a href="arch_specific/aarch64.md">aarch64</a>
+- <a href="arch_specific/riscv32.md">riscv32</a>
+- <a href="arch_specific/riscv64.md">riscv64</a>
 
 ## Bus stuff
 These matalanguages let the driver use the bus:
