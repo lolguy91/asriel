@@ -2,6 +2,7 @@
 ## Architecture dependent
 These metalanguages let the driver use architecture dependant instructions easily:
 - <a href="arch_specific/x86.md">x86</a>
+- <a href="arch_specific/x86_64.md">x86_64</a>
 - TODO: add more architectures
 
 ## Bus stuff
