@@ -1,6 +1,6 @@
 # ADI framebuffer metalanguage
 ## Structs
-* fbinfo_t </be>
+* fbinfo_t
 ```c
 typedef struct {
     uintptr_t addr;
@@ -13,7 +13,9 @@ typedef struct {
 
 ## Driver side
 ### Events
-* framebuffer_request(uint FBID) -> fbinfo_t
+* `fbinfo_t framebuffer_request(uint FBID)` 
 
 ## Client side
-* get_fbinfo(uint FBID) -> fbinfo_t
+### Functions
+* `fbinfo_t get_fbinfo(uint FBID)` </br>
+triggers the event on the driver side
