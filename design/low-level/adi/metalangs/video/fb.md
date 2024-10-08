@@ -12,7 +12,6 @@ typedef struct {
 ```
 
 ## Driver side
-
 ### Events
 * framebuffer_request(uint FBID) -> fbinfo_t
 
