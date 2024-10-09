@@ -2,7 +2,6 @@ const std = @import("std");
 const zap = @import("zap");
 const api = @import("api.zig");
 
-
 fn serve404(r: zap.Request) void {
     if (r.sendFile("frontend/dist/404.html")) {} else |_| {
         std.debug.print("Error: 404 page not found: {s}\n", .{r.path.?});
@@ -13,7 +12,7 @@ fn serve404(r: zap.Request) void {
 pub fn serve(r: zap.Request) void {
     r.setHeader("Cache-Control", "no-cache") catch unreachable;
 
-    if(std.mem.startsWith(u8, r.path.?, "/api/")) {
+    if (std.mem.startsWith(u8, r.path.?, "/api/")) {
         api.serve(r);
         return;
     }
