@@ -1,4 +1,5 @@
 certificates/
 .zig-cache/
 .zig-out/
+zig-out/
 database.db
