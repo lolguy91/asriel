@@ -1,9 +1,7 @@
 #include <papyrus.h>
 
-int papyrus_init();
-
 int main()
 {
-    printf("%d\n", papyrus_init());
+    papyrus_init_glfw_render();
     return 0;
 }

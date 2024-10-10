@@ -1,5 +1,3 @@
-#include "glfw.h"
-
 /* Glad include */
 #include <glad/glad.h>
 
@@ -11,10 +9,13 @@
 #include <stdint.h>
 #include <stdio.h>
 
+/* Papyrus include */
+#include <papyrus.h>
+
 int width = 0;
 int height = 0;
 
-int internal_init_window()
+void internal_init_window()
 {
     glfwInit();
     GLFWwindow *window = glfwCreateWindow(650, 650, "Papyrus", NULL, NULL);
@@ -24,7 +25,7 @@ int internal_init_window()
     if (window == NULL)
     {
         printf("Unable to create OpenGL window!\nExiting...\n");
-        return 1;
+        return;
     }
 
     else
@@ -43,5 +44,10 @@ int internal_init_window()
     }
 
     glfwTerminate();
-    return 0;
+    return;
+}
+
+void papyrus_init_glfw_render()
+{
+    papyrus_init();       
 }

@@ -20,4 +20,4 @@ else()
     target_link_libraries(${PROJECT_NAME})
 endif()
 
-target_include_directories(${PROJECT_NAME} PRIVATE "renders")
+target_include_directories(${PROJECT_NAME} PRIVATE "include" "renders")
