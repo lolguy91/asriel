@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 project(papyrus-test)
 
-file(GLOB SRC CONFIGURE_DEPENDS "test.c" "src/*.c")
+file(GLOB SRC CONFIGURE_DEPENDS "glfw-test.c" "src/*.c")
 
 if(BUILD_GLFW)
     list(APPEND SRC "renders/glfw.c" "renders/glad.c")

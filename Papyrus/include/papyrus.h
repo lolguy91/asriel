@@ -10,7 +10,7 @@
 void papyrus_init();
 
 /* ------------------------------------ */
-/*      Render initialize functions     */
+/*      Backend initialize functions    */
 /* ------------------------------------ */
 
 /**
