@@ -4,6 +4,9 @@ relink_needed=0
 
 CC=${CC:-clang}
 
+LCFLAGS=$(pkg-config --cflags luajit)
+LLDFLAGS=$(pkg-config --libs luajit)
+
 NUM_JOBS=$(nproc)
 
 mkdir -p bin
@@ -12,7 +15,7 @@ SRC_FILES=$(find src/ -name "*.c")
 
 compile() {
     echo "Compiling $src_file"
-    $CC -Isrc -Isrc/lua -c $1 -o $2
+    $CC $LCFLAGS -Isrc -c $1 -o $2
 }
 
 for src_file in $SRC_FILES; do
@@ -31,7 +34,7 @@ done
 wait "${PIDS[@]}"
 
 if [ $relink_needed -eq 1 ]; then
-    $CC -lm bin/*.o -o bin/asrBuild
+    $CC $LLDFLAGS -lm bin/*.o -o bin/asrBuild
 fi
 
 echo "Successfully compiled"

@@ -11,6 +11,7 @@ struct boot_info {
     const uintptr_t driver_ramfs;
 
     const uintptr_t rsdt;
+    const uintprint_t kernel_addr;
 
     const char boot_tag[4];
 
