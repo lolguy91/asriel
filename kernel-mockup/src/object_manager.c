@@ -29,7 +29,7 @@ bool object_manager_init() {
     write_ptr = object_memory;
     max_ptr = object_memory;
     cur_obj_id = 1; //0 is invalid
-    room = 0xffffff;
+    room = object_memory_size;
 
     if(object_memory == NULL) {
         return false;
@@ -40,7 +40,7 @@ bool object_manager_init() {
 }
 
 uint16_t object_manager_insert(obj_to_insert_t obj) {
-    if(room < type2size[obj.type] + sizeof(object_header_t) || object_memory_size < type2size[obj.type] + sizeof(object_header_t)) {
+    if(room < type2size[obj.type] + sizeof(object_header_t)) {
         //TODO: handle not enough room
         return 0xffff;
     }
@@ -62,23 +62,24 @@ uint16_t object_manager_insert(obj_to_insert_t obj) {
         max_ptr = write_ptr;
     }
 
-    return cur_obj_id;
+    cur_obj_id++;
+    return cur_obj_id - 1;
 }
 
 char* object_manager_get(uint16_t obj_id) {
     char* read_ptr = object_memory + OM_SMALLEST_OBJ_SIZE * (obj_id - 1);
     if(read_ptr >= max_ptr) {
-        return NULL;
+        return (char*)0xdeadbeef;
     }
-    while(read_ptr < max_ptr) {
-        object_header_t h = *((object_header_t*)read_ptr);
-        if(h.magic_pattern == OM_MAGIC_PATTERN_ALIVE && h.id == obj_id && h.type < OM_MAX_TYPE) {
+    while(read_ptr <= max_ptr) {
+        object_header_t* h = (object_header_t*)read_ptr;
+        if(h->magic_pattern == OM_MAGIC_PATTERN_ALIVE && h->id == obj_id && h->type < OM_MAX_TYPE) {
             return read_ptr;
         }
         read_ptr++;
     }
 
-    return NULL;
+    return (char*)0xdeadb00b;
 }
 
 bool object_manager_remove(uint16_t obj_id) {
