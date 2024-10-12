@@ -44,7 +44,7 @@ typedef enum{
 //END OF MOCKUPS
 
 #define OM_NULL 0
-#define OM_MAGIC_PATTERN_ALIVE 0x55
+#define OM_MAGIC_PATTERN_ALIVE 0x00 // it is 0x00 so you cannot put a fake object header in user definable strings
 #define OM_MAGIC_PATTERN_DEAD 0xAA
 
 #define OM_TYPE_THREAD 0
