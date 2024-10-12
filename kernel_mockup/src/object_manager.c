@@ -41,8 +41,16 @@ bool object_manager_init() {
 
 uint16_t object_manager_insert(obj_to_insert_t obj) {
     if(room < type2size[obj.type] + sizeof(object_header_t)) {
-        //TODO: handle not enough room
-        return 0xffff;
+        if(room >= object_memory_size){
+            object_memory_size += 0x1000;
+            object_memory = (char*)realloc(object_memory, object_memory_size);
+        }
+        while(write_ptr < object_memory + object_memory_size) {
+            object_header_t* h = (object_header_t*)write_ptr;
+            if(h->magic_pattern == OM_MAGIC_PATTERN_DEAD || write_ptr == max_ptr) {
+                break;
+            }
+        }
     }
 
     // The header starts with the magic pattern on purpuse, the (currently TODO) no room handling will find dead objects
