@@ -40,6 +40,7 @@ bool object_manager_init() {
 }
 
 uint16_t object_manager_insert(obj_to_insert_t obj) {
+    recheck:
     if(room < type2size[obj.type] + sizeof(object_header_t)) {
         if(room >= object_memory_size){
             object_memory_size += 0x1000;
@@ -47,8 +48,13 @@ uint16_t object_manager_insert(obj_to_insert_t obj) {
         }
         while(write_ptr < object_memory + object_memory_size) {
             object_header_t* h = (object_header_t*)write_ptr;
-            if(h->magic_pattern == OM_MAGIC_PATTERN_DEAD || write_ptr == max_ptr) {
-                break;
+            if(write_ptr == max_ptr){
+                room = object_memory_size - (write_ptr - object_memory);
+                goto recheck;
+            }
+            if(h->magic_pattern == OM_MAGIC_PATTERN_DEAD) {
+                room = type2size[h->type] + sizeof(object_header_t);
+                goto recheck;
             }
         }
     }
