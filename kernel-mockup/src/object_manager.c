@@ -70,7 +70,7 @@ char* object_manager_get(uint16_t obj_id) {
     if(read_ptr >= max_ptr) {
         return NULL;
     }
-    while(read_ptr < object_memory + object_memory_size) {
+    while(read_ptr < max_ptr) {
         object_header_t h = *((object_header_t*)read_ptr);
         if(h.magic_pattern == OM_MAGIC_PATTERN_ALIVE && h.id == obj_id && h.type < OM_MAX_TYPE) {
             return read_ptr;
