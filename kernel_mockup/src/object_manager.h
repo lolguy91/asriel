@@ -113,24 +113,24 @@ typedef struct{
  * @brief: initializes the object manager
  * @return: true if successful, false if not
 */
-bool object_manager_init();
+bool om_init();
 /*
  * @brief: inserts an object into the object manager
  * @param obj: object to insert
  * @return: id of the inserted object
 */
-uint16_t object_manager_insert(obj_to_insert_t obj);
+uint16_t om_insert(obj_to_insert_t obj);
 /*
  * @brief: removes an object from the object manager
  * @param obj_id: id of the object to remove
  * @return: true if successful, false if not
 */
-bool object_manager_remove(uint16_t obj_id);
+bool om_remove(uint16_t obj_id);
 /*
  * @brief: gets an object from the object manager
  * @param obj_id: id of the object to get
  * @return: the object
 */
-char* object_manager_get(uint16_t obj_id);
+char* om_get(uint16_t obj_id);
 
 #endif // __OBJECT_MANAGER_H__
