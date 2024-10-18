@@ -8,6 +8,7 @@
 typedef enum error_T
 {
     NO_ERROR,
+    UNSPECIFIED_ERROR,
     NOT_IMPLEMENTED,
     INVALID_NAME,
     INVALID_TITLE,

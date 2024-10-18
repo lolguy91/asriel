@@ -34,6 +34,23 @@ Error init_button(Window* window, char* name, char* title, uint16_t x, uint16_t 
 Error init_window(char* name, uint16_t width, uint16_t height, Button buttons[64]);
 
 /* ------------------------------------ */
+/*          Papyrus check functions     */
+/* ------------------------------------ */
+
+/**
+ * Check window
+ * @param window window to be checked
+ */
+Error check_window(Window window);
+
+/**
+ * Check button
+ * @param window button's window
+ * @param button button to be checked
+ */
+Error check_button(Window window, Button button);
+
+/* ------------------------------------ */
 /*      Backend initialize functions    */
 /* ------------------------------------ */
 
@@ -49,4 +66,9 @@ void papyrus_init_glfw_render();
 /**
  * Draw window (backend agnostic function)
  */
-void internal_init_window();
+Error internal_init_window(Window window);
+
+/**
+ * Draw button (backend agnostic function)
+ */
+Error internal_init_button(Window window, Button button);

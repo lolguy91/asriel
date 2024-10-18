@@ -11,21 +11,22 @@
 
 /* Papyrus include */
 #include <papyrus.h>
+#include <papyrus_structures.h>
 
 int width = 0;
 int height = 0;
 
-void internal_init_window()
+Error internal_init_window(Window window)
 {
     glfwInit();
-    GLFWwindow *window = glfwCreateWindow(650, 650, "Papyrus", NULL, NULL);
-    glfwMakeContextCurrent(window);
+    GLFWwindow *glfw_window = glfwCreateWindow(window.width, window.height, window.name, NULL, NULL);
+    glfwMakeContextCurrent(glfw_window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-    if (window == NULL)
+    if (glfw_window == NULL)
     {
         printf("Unable to create OpenGL window!\nExiting...\n");
-        return;
+        return UNSPECIFIED_ERROR;
     }
 
     else
@@ -33,21 +34,26 @@ void internal_init_window()
         printf("OpenGL window has been created.\n");
     }
 
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(glfw_window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glfwGetWindowSize(window, &width, &height);
+        glfwGetWindowSize(glfw_window, &width, &height);
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(glfw_window);
         glfwPollEvents();
     }
 
     glfwTerminate();
-    return;
+    return NO_ERROR;
+}
+
+Error internal_init_button(Window window, Button button)
+{
+    return NOT_IMPLEMENTED;
 }
 
 void papyrus_init_glfw_render()
 {
-    papyrus_init();       
+    papyrus_init();    
 }
