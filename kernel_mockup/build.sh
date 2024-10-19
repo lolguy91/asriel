@@ -12,7 +12,7 @@ SRC_FILES=$(find src/ -name "*.c")
 
 compile() {
     echo "Compiling $src_file"
-    $CC -Isrc -Isrc/lua -c $1 -o $2
+    $CC -Isrc -Isrc/lua -g -c $1 -o $2
 }
 
 for src_file in $SRC_FILES; do
@@ -31,7 +31,7 @@ done
 wait "${PIDS[@]}"
 
 if [ $relink_needed -eq 1 ]; then
-    $CC -lm bin/*.o -o bin/mockup
+    $CC -g -lm bin/*.o -o bin/mockup
 fi
 
 echo "Successfully compiled"
