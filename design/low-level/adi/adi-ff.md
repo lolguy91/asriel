@@ -14,7 +14,7 @@ other fields in the header include:
 * String table offset(`4` bytes): offset of the string table in the file
 * Segment table offset(`4` bytes): offset of the segment table in the file
 
-### Architectures
+#### Architectures
 * `0x00` = x86_86
 * `0x01` = i486
 * `0x02` = aarch32
@@ -26,7 +26,41 @@ other fields in the header include:
 The string table just has strings lul.
 
 ### Segment table
-The segment table just has segments lul.
+One entry contains:
+* Name(`2` bytes): offset into the string table for the segment's name
+* Offset(`4` bytes): offset of the segment in the file(only if infile is true)
+* Size(`4` bytes): size of the segment
+* Flags(`1` byte): see the list bellow
+
+#### Segment flags field
+* bit `0` = executable
+* bit `1` = writable
+* bit `2` = readable
+* bit `3` = infile(Is it in the file or is it just all zeroes)
+* bits `4` & `5` = privilige(see privilige table)
+* bit `6` = reserved
+* bit `7` = reserved
+
+##### Privilige table
+| Privilege | Resources accessable |
+| --- | --- |
+| 0 | `bus` and `architecture specific`(**not including paging**) |
+| 1 | `bus`, `architecture specific` |
+| 2 | `bus`, `architecture specific` and `metadriver` |
+| 3 | `bus`, `architecture specific`, `metadriver` and `userspace` |
 
 ### Metalanguage table
-The metalanguage table just has metalanguages lul.
+One entry contains:
+* Flags(`1` byte): see the list bellow
+* ID(`4` bytes): ID of the metalanguage
+* ptr_addr(`4` bytes): memory adress to put the pointer to the metalanguage strutc at
+
+#### Metalanguage flags field
+* bit `0` = defined
+* bit `1` = orientation(0 = hardware facing, 1 = client facing)
+* bit `2` = kernel_mode_only(refuse to load into user mode if set)
+* bit `3` = reserved
+* bit `4` = reserved
+* bit `5` = reserved
+* bit `6` = reserved
+* bit `7` = reserved
