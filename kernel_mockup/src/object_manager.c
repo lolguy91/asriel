@@ -49,7 +49,7 @@ uint16_t om_insert(obj_to_insert_t obj) {
         }
         while(write_ptr <= object_memory + object_memory_size) {
             object_header_t* h = (object_header_t*)write_ptr;
-            if(write_ptr >= max_ptr) {
+            if(write_ptr > max_ptr) {
                 room = object_memory_size - (write_ptr - object_memory);
                 goto recheck;
             }
@@ -57,6 +57,7 @@ uint16_t om_insert(obj_to_insert_t obj) {
                 room = type2size[h->type] + sizeof(object_header_t);
                 goto recheck;
             }
+            write_ptr++;
         }
 
         return 0xffff;
@@ -68,7 +69,7 @@ uint16_t om_insert(obj_to_insert_t obj) {
         .type = obj.type,
         .id = cur_obj_id
     };
-    *((object_header_t*)write_ptr) = h;
+    ((object_header_t*)write_ptr)[0] = h;
     room -= sizeof(object_header_t);
     write_ptr += sizeof(object_header_t);
 
