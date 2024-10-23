@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <cvector.h>
 
 /**
  * Internal structure for error codes
@@ -43,17 +44,17 @@ typedef struct button_T
  * @param name window's name
  * @param width window's width
  * @param height window's height
- * @param buttons buttons
+ * @param buttons vector holding buttons
  */
 typedef struct window_T
 {
     char* name;
     uint16_t width;
     uint16_t height;
-    Button buttons[64];
+    cvector_vector_type(Button) buttons;
 } Window;
 
 /**
- * Array containing all windows
+ * Vector containing all windows
  */
-static Window windows[64];
+static cvector_vector_type(Window) windows;

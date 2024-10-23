@@ -16,7 +16,7 @@
 int width = 0;
 int height = 0;
 
-Error internal_init_window(Window window)
+Error internal_draw_window(Window window)
 {
     glfwInit();
     GLFWwindow *glfw_window = glfwCreateWindow(window.width, window.height, window.name, NULL, NULL);
@@ -48,7 +48,7 @@ Error internal_init_window(Window window)
     return NO_ERROR;
 }
 
-Error internal_init_button(Window window, Button button)
+Error internal_draw_button(Window window, Button button)
 {
     return NOT_IMPLEMENTED;
 }

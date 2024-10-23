@@ -1,6 +1,7 @@
 #pragma once
 
 #include <papyrus_structures.h>
+#include <cvector.h>
 
 /* ------------------------------------ */
 /*          Papyrus functions           */
@@ -12,43 +13,21 @@
 Error papyrus_init();
 
 /**
- * Make new button
- * @param window window where button will be created
- * @param name button's name
- * @param title button's title
- * @param x x coordinate of left top corner
- * @param y y coordinate of left top corner
- * @param width button's width
- * @param height button's height
- * 
+ * Initialize a new button.
+ * Perform checks and return `NO_ERROR` if button can be drawn.
+ * @param window window where button will be drawn
+ * @param button button to be drawn
+ * @return `Error` enum
  */
-Error init_button(Window* window, char* name, char* title, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+Error init_button(Window window, Button button);
 
 /**
- * Make new button
- * @param name window's name
- * @param width window's width
- * @param height window's height
- * @param buttons buttons
+ * Initialize a new window.
+ * Perform checks and return `NO_ERROR` if window can be drawn.
+ * @param window window to be drawn
+ * @return `Error` enum
  */
-Error init_window(char* name, uint16_t width, uint16_t height, Button buttons[64]);
-
-/* ------------------------------------ */
-/*          Papyrus check functions     */
-/* ------------------------------------ */
-
-/**
- * Check window
- * @param window window to be checked
- */
-Error check_window(Window window);
-
-/**
- * Check button
- * @param window button's window
- * @param button button to be checked
- */
-Error check_button(Window window, Button button);
+Error init_window(Window window);
 
 /* ------------------------------------ */
 /*      Backend initialize functions    */
@@ -66,9 +45,9 @@ void papyrus_init_glfw_render();
 /**
  * Draw window (backend agnostic function)
  */
-Error internal_init_window(Window window);
+Error internal_draw_window(Window window);
 
 /**
  * Draw button (backend agnostic function)
  */
-Error internal_init_button(Window window, Button button);
+Error internal_draw_button(Window window, Button button);

@@ -4,8 +4,29 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <cvector.h>
+
 Error papyrus_init()
 {
+    /* ------------------------------------ */
+    /*          Initialize window           */
+    /* ------------------------------------ */
+    Window window = {
+        .name = "Papyrus",
+        .width = 650,
+        .height = 650,
+    };
+
+    Error window_error = init_window(window);
+    if (window_error != NO_ERROR)
+    {
+        return window_error;
+    }
+
+    /* ------------------------------------ */
+    /*          Initialize button           */
+    /* ------------------------------------ */
+
     Button button = {
         .name = "test_button",
         .title = "Test button",
@@ -15,57 +36,47 @@ Error papyrus_init()
         .height = 30,
     };
 
-    // TODO: add_button() function
-    Button buttons[64];
-    buttons[0] = button;
+    Error button_error = init_button(window, button);
+    if (button_error != NO_ERROR)
+    {
+        return button_error;
+    }
 
-    return init_window("Papyrus", 650, 650, buttons);
+    /* ------------------------------------ */
+    /*      Copy buttons to window          */
+    /* ------------------------------------ */
+
+    cvector_push_back(window.buttons, button);
+
+    /* Button* b = cvector_at(window.buttons, 0);
+    printf("%d\n", b->height); */
+
+    /* ------------------------------------ */
+    /*              Draw window             */
+    /* ------------------------------------ */
+
+    internal_draw_window(window);
 }
 
-Error init_button(Window* window, char* name, char* title, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+Error init_button(Window window, Button button)
 {
-    Button button = {
-        .name = name,
-        .title = title,
-        .x = x,
-        .y = y,
-        .width = width,
-        .height = height,
-    };
-
-    // TODO: add_button() function
-    window->buttons[0] = button;
-
-    Error error = check_button(*window, button);
-    if (error == NO_ERROR)
-    {
-        return internal_init_button(*window, button);
-    }
-
-    else
-    {
-        return error;
-    }
+    // TODO: make button checks
+    return NO_ERROR;
 }
 
-Error init_window(char* name, uint16_t width, uint16_t height, Button buttons[64])
+Error init_window(Window window)
 {
-    Window window = {
-        .name = name,
-        .width = width,
-        .height = height,
-    };
+    // TODO: make window checks
 
-    memcpy(window.buttons, buttons, sizeof(Button) * 64);
-
-    Error error = check_window(window);
-    if (error == NO_ERROR)
+    if (window.width > 1920)
     {
-        return internal_init_window(window);
+        return INVALID_WIDTH;
     }
 
-    else
+    if (window.height > 1080)
     {
-        return error;
+        return INVALID_HEIGHT;
     }
+
+    return NO_ERROR;
 }
